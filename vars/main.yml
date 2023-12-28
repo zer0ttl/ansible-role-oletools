@@ -20,4 +20,4 @@ repo: https://github.com/DidierStevens/DidierStevensSuite.git
 role_tags:
   - oletools
 
-print_debug: false
+print_debug: true
