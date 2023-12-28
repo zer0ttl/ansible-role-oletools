@@ -1,0 +1,25 @@
+galaxy_info:
+  author: Sudhir Shirsath
+  description: Install oletools (DidierStevensSuite)
+  role_name: "oletools"
+
+  license: BSD-3-Clause
+
+  min_ansible_version: "2.1"
+  namespace: zer0ttl
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+        - bookworm
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+
+  galaxy_tags:
+    - ubuntu
+    - oletools
+    - forensics
+
+dependencies: []
