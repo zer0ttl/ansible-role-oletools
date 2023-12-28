@@ -3,7 +3,7 @@ galaxy_info:
   description: Install oletools (DidierStevensSuite)
   role_name: "oletools"
 
-  license: BSD-3-Clause
+  license: MIT
 
   min_ansible_version: "2.1"
   namespace: zer0ttl
