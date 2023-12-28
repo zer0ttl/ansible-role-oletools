@@ -1,6 +1,7 @@
 ---
 # tasks file for ansible-role-oletools
 - name: Load var files
+  become: false
   ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
@@ -10,35 +11,43 @@
         - main.yml
       paths:
         - "{{ role_path }}/vars"
+
+- name: Install pre-requisites
   tags:
     - "{{ role_tags }}"
-
-- name: Install python3 and pip
-  ansible.builtin.apt:
-    name: "{{ packages }}"
-    update_cache: true
   become: true
-  tags:
-    - "{{ role_tags }}"
+  become_user: root
+  block:
+    - name: Update apt repositories
+      ansible.builtin.apt:
+        update_cache: true
 
-- name: Install oletools python package
-  ansible.builtin.pip:
-    name: "{{ pip_packages }}"
-  tags:
-    - "{{ role_tags }}"
+    - name: Install python3 and pip
+      ansible.builtin.apt:
+        name: "{{ packages }}"
 
-- name: Clone the dd-suite
-  ansible.builtin.git:
-    repo: "{{ repo }}"
-    dest: "{{ destination_folder }}"
-    recursive: true
-    version: master
-  tags:
-    - "{{ role_tags }}"
+    - name: "Running as root"
+      ansible.builtin.debug:
+        msg: "{{ ansible_env }}"
+      when: print_debug
 
-- name: "Debug environment variable: HOME"
-  ansible.builtin.debug:
-    msg: "{{ role_tags }} : {{ role_name }} : {{ ansible_distribution }} : {{ ansible_os_family }}"
-  when: print_debug
+- name: Install DidierStevensSuite and oletools
   tags:
     - "{{ role_tags }}"
+  become: false
+  block:
+    - name: Install oletools python package
+      ansible.builtin.pip:
+        name: "{{ pip_packages }}"
+
+    - name: Clone the dd-suite
+      ansible.builtin.git:
+        repo: "{{ repo }}"
+        dest: "{{ destination_folder }}"
+        recursive: true
+        version: master
+
+    - name: "NOT Running as root"
+      ansible.builtin.debug:
+        msg: "{{ ansible_env }}"
+      when: print_debug
