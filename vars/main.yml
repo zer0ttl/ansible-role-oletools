@@ -4,12 +4,13 @@
 # Destination folder for DidierStevensSuite
 destination_folder: "{{ ansible_env.HOME }}/tools/dd-suite"
 
-# Package to be installed
+# Ubuntu Packages to be installed
 packages:
   - python3
   - python3-pip
+  - python3-debian
 
-# Python package to be installed
+# Python packages to be installed
 pip_packages:
   - oletools[full]
 
@@ -20,4 +21,4 @@ repo: https://github.com/DidierStevens/DidierStevensSuite.git
 role_tags:
   - oletools
 
-print_debug: true
+print_debug: false
